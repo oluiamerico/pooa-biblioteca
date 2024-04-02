@@ -29,7 +29,7 @@ public class Console {
             System.out.println("3. Empréstimo de Livro");
             System.out.println("4. Devolução de Livro");
             System.out.println("5. Enviar Lembretes de Devolução");
-            System.out.println("5. Listar Usuários");
+            System.out.println("6. Listar Usuários");
             System.out.println("7. Sair");
             System.out.print("Escolha uma opção: ");
             int opcao = scanner.nextInt();
@@ -43,16 +43,16 @@ public class Console {
                     this.adicionarUsuarioConsole();
                     break;
                 case 3:
-                    emprestarLivroConsole();
+                    this.emprestarLivroConsole();
                     break;
                 case 4:
-                    devolverLivroConsole();
+                    this.devolverLivroConsole();
                     break;
                 case 5:
-                    enviarLembretesDevolucao();
+                    this.enviarLembretesDevolucao();
                     break;
                 case 6:
-                    listarUsuariosConsole();
+                    this.listarUsuariosConsole();
                     break;
                 case 7:
                     sair = true;
@@ -69,7 +69,7 @@ public class Console {
         System.out.println("\n--- Listar Usuarios ---");
         for (Usuario usuario : biblioteca.getUsuarios()) {
             System.out.println("Id: "+usuario.getId());
-            System.out.println("Nome: "+usuario.getId());
+            System.out.println("Nome: "+usuario.getNome());
         }
     }
 

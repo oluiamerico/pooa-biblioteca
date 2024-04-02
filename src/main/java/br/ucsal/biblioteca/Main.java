@@ -23,8 +23,10 @@ public class Main {
         biblioteca.adicionarUsuario(pedro);
         biblioteca.adicionarUsuario(new Usuario("Maria"));
         Livro cleanCode = new Livro("Clean Code: A Handbook of Agile Software Craftsmanship", "Robert C. Martin", 2008);
+        cleanCode.setDisponivel(false);
         biblioteca.adicionarLivro(cleanCode);
         Livro pragmatic = new Livro("The Pragmatic Programmer: Your Journey To Mastery", "Andrew Hunt and David Thomas", 1999);
+        pragmatic.setDisponivel(false);
         biblioteca.adicionarLivro(pragmatic);
         biblioteca.adicionarLivro(new Livro("Introduction to Algorithms", "Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest, and Clifford Stein", 1990));
         biblioteca.adicionarLivro(new Livro("Design Patterns: Elements of Reusable Object-Oriented Software", "Erich Gamma, Richard Helm, Ralph Johnson, and John Vlissides", 1994));
