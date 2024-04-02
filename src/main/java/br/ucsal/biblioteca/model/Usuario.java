@@ -1,17 +1,17 @@
-package br.ucsal.biblioteca.domain;
+package br.ucsal.biblioteca.model;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Usuario {
 
-    private static final AtomicInteger contadorId = new AtomicInteger(0); // Contador estático
+    private static Integer contadorId = 1;
 
     private int id;
 
     private String nome;
 
     public Usuario(String nome) {
-        this.id = contadorId.getAndIncrement();
+        this.id = contadorId++;
         this.nome = nome;
     }
 

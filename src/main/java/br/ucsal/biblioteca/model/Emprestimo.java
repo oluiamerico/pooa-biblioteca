@@ -1,4 +1,4 @@
-package br.ucsal.biblioteca.domain;
+package br.ucsal.biblioteca.model;
 
 import java.time.LocalDate;
 

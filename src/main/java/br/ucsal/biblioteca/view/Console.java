@@ -1,18 +1,24 @@
 package br.ucsal.biblioteca.view;
 
+import br.ucsal.biblioteca.controller.Biblioteca;
 import br.ucsal.biblioteca.model.Emprestimo;
 import br.ucsal.biblioteca.model.Livro;
 import br.ucsal.biblioteca.model.Usuario;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 // Classes Livro e Usuario como fornecido anteriormente
 
-public class SistemaBiblioteca {
+public class Console {
 
+    private final Scanner scanner = new Scanner(System.in);
 
+    private final Biblioteca biblioteca;
+
+    public Console(Biblioteca biblioteca){
+        this.biblioteca = biblioteca;
+    }
 
     public void iniciarConsole() {
         boolean sair = false;
@@ -22,7 +28,9 @@ public class SistemaBiblioteca {
             System.out.println("2. Adicionar Usuário");
             System.out.println("3. Empréstimo de Livro");
             System.out.println("4. Devolução de Livro");
-            System.out.println("5. Sair");
+            System.out.println("5. Enviar Lembretes de Devolução");
+            System.out.println("5. Listar Usuários");
+            System.out.println("7. Sair");
             System.out.print("Escolha uma opção: ");
             int opcao = scanner.nextInt();
             scanner.nextLine(); // Consumir nova linha
@@ -41,6 +49,12 @@ public class SistemaBiblioteca {
                     devolverLivroConsole();
                     break;
                 case 5:
+                    enviarLembretesDevolucao();
+                    break;
+                case 6:
+                    listarUsuariosConsole();
+                    break;
+                case 7:
                     sair = true;
                     break;
                 default:
@@ -51,17 +65,31 @@ public class SistemaBiblioteca {
         scanner.close();
     }
 
+    private void listarUsuariosConsole() {
+        System.out.println("\n--- Listar Usuarios ---");
+        for (Usuario usuario : biblioteca.getUsuarios()) {
+            System.out.println("Id: "+usuario.getId());
+            System.out.println("Nome: "+usuario.getId());
+        }
+    }
+
     private void adicionarLivroConsole() {
         System.out.println("\n--- Adicionar Livro ---");
         System.out.print("Título: ");
         String titulo = scanner.nextLine();
+
         System.out.print("Autor: ");
         String autor = scanner.nextLine();
         System.out.print("Ano de Publicação: ");
         int ano = scanner.nextInt();
         Livro livro = new Livro(titulo, autor, ano);
-        this.adicionarLivro(livro);
-        System.out.println("Livro adicionado com sucesso.");
+        if (livro.getTitulo().length() < 3) {
+            System.out.println("Erro: O título deve ter pelo menos 3 caracteres.");
+        }else {
+            biblioteca.adicionarLivro(livro);
+            System.out.println("ID do Livro " + livro.getId());
+            System.out.println("Livro adicionado com sucesso.");
+        }
     }
 
     private void adicionarUsuarioConsole() {
@@ -69,9 +97,13 @@ public class SistemaBiblioteca {
         System.out.print("Nome: ");
         String nome = scanner.nextLine();
         Usuario usuario = new Usuario(nome);
-        this.adicionarUsuario(usuario);
-        System.out.println("ID Usuário: "+usuario.getId());
-        System.out.println("Usuário registrado com sucesso.");
+        if (usuario.getNome().length() < 3) {
+            System.out.println("Erro: O título deve ter pelo menos 3 caracteres.");
+        } else {
+            biblioteca.adicionarUsuario(usuario);
+            System.out.println("ID Usuário: " + usuario.getId());
+            System.out.println("Usuário registrado com sucesso.");
+        }
     }
 
 
@@ -83,7 +115,7 @@ public class SistemaBiblioteca {
             System.out.print("ID do Usuário: ");
             int idUsuario = scanner.nextInt();
             scanner.nextLine(); // Limpa o buffer do scanner
-            usuario = usuarios.stream()
+            usuario = biblioteca.getUsuarios().stream()
                     .filter(u -> u.getId() == idUsuario)
                     .findFirst()
                     .orElse(null);
@@ -102,7 +134,7 @@ public class SistemaBiblioteca {
             int idLivro = scanner.nextInt();
             scanner.nextLine(); // Limpa o buffer do scanner
 
-            Livro livroSelecionado = livros.stream()
+            Livro livroSelecionado = biblioteca.getLivros().stream()
                     .filter(l -> l.getId() == idLivro)
                     .findFirst()
                     .orElse(null);
@@ -121,7 +153,7 @@ public class SistemaBiblioteca {
             String confirmacao = scanner.nextLine();
             if (confirmacao.equalsIgnoreCase("s")) {
                 livroSelecionado.setDisponivel(false);
-                adicionarEmprestimo(new Emprestimo(usuario, livroSelecionado, LocalDate.now()));
+                biblioteca.adicionarEmprestimo(new Emprestimo(usuario, livroSelecionado, LocalDate.now()));
                 System.out.println("Emprestimo efetuado com sucesso.");
                 } else {
                     System.out.println("Emprestimo cancelado.");
@@ -138,7 +170,7 @@ public class SistemaBiblioteca {
         int idLivro = scanner.nextInt();
         scanner.nextLine(); // Limpa o buffer do scanner
 
-        Emprestimo emprestimoParaRemover = emprestimos.stream()
+        Emprestimo emprestimoParaRemover = biblioteca.getEmprestimos().stream()
                 .filter(e -> e.getLivro().getId() == idLivro && !e.getLivro().isDisponivel())
                 .findFirst()
                 .orElse(null);
@@ -162,11 +194,16 @@ public class SistemaBiblioteca {
         }
 
         livroParaDevolver.setDisponivel(true);
-        removerEmprestimo(emprestimoParaRemover);
+        biblioteca.removerEmprestimo(emprestimoParaRemover);
         System.out.println("Livro devolvido com sucesso.");
     }
 
 
+    private void enviarLembretesDevolucao() {
+        System.out.println("\n--- Enviando Lembretes de Devolução ---");
+        biblioteca.enviarLembretesDevolucao();
+        System.out.println("\n--- Lembretes de Devolução Enviados---");
+    }
 
 
 }
