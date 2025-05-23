@@ -9,9 +9,11 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Biblioteca {
+public class Biblioteca implements Runnable {
     private final List<Livro> livros = new ArrayList<>();
     private final List<Usuario> usuarios = new ArrayList<>();
+
+
 
     private final List<Emprestimo> emprestimos = new ArrayList<>();
 
@@ -41,13 +43,18 @@ public class Biblioteca {
 
     public void adicionarEmprestimo(Emprestimo emprestimo) {
         emprestimos.add(emprestimo);
+        run();
     }
 
     public void removerEmprestimo(Emprestimo emprestimo) {
         emprestimos.add(emprestimo);
     }
 
-    public void enviarLembretesDevolucao() {
+
+
+
+    @Override
+    public void run() {
         LocalDate hoje = LocalDate.now();
         for (Emprestimo emprestimo : emprestimos) {
             long diasRestantes = ChronoUnit.DAYS.between(hoje, emprestimo.getDataDevolucao());

@@ -16,6 +16,10 @@ public class Main {
         fazerCargaInicial(biblioteca);
         Console sistema = new Console(biblioteca);
         sistema.iniciarConsole();
+
+        Emprestimo emp = new Emprestimo(new Usuario("Lucas"), new Livro("Java", "Autor", 2023), LocalDate.of(2025,3,27));
+        biblioteca.adicionarEmprestimo(emp);
+
     }
 
     private static void fazerCargaInicial(Biblioteca biblioteca) {

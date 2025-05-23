@@ -1,5 +1,7 @@
 package br.ucsal.biblioteca.model;
 
+import br.ucsal.biblioteca.controller.MinLength;
+
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Usuario {
@@ -8,6 +10,7 @@ public class Usuario {
 
     private int id;
 
+    @MinLength(3)
     private String nome;
 
     public Usuario(String nome) {

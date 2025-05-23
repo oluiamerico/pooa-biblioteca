@@ -5,6 +5,7 @@ import br.ucsal.biblioteca.model.Emprestimo;
 import br.ucsal.biblioteca.model.Livro;
 import br.ucsal.biblioteca.model.Usuario;
 
+import java.lang.reflect.Field;
 import java.time.LocalDate;
 import java.util.Scanner;
 
@@ -48,9 +49,6 @@ public class Console {
                 case 4:
                     this.devolverLivroConsole();
                     break;
-                case 5:
-                    this.enviarLembretesDevolucao();
-                    break;
                 case 6:
                     this.listarUsuariosConsole();
                     break;
@@ -66,10 +64,11 @@ public class Console {
     }
 
     private void listarUsuariosConsole() {
+        Field[] usuariosReflection = Usuario.class.getDeclaredFields();
         System.out.println("\n--- Listar Usuarios ---");
         for (Usuario usuario : biblioteca.getUsuarios()) {
-            System.out.println("Id: "+usuario.getId());
-            System.out.println("Nome: "+usuario.getNome());
+            System.out.println("Id: "+usuario.getId() + " Campo: " + usuariosReflection[1].getName());
+            System.out.println("Nome: "+ usuario.getNome()  + " Campo: " + usuariosReflection[2].getName());
         }
     }
 
@@ -199,11 +198,7 @@ public class Console {
     }
 
 
-    private void enviarLembretesDevolucao() {
-        System.out.println("\n--- Enviando Lembretes de Devolução ---");
-        biblioteca.enviarLembretesDevolucao();
-        System.out.println("\n--- Lembretes de Devolução Enviados---");
-    }
+
 
 
 }

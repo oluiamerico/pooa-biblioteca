@@ -1,5 +1,7 @@
 package br.ucsal.biblioteca.model;
 
+import br.ucsal.biblioteca.controller.Biblioteca;
+
 import java.time.LocalDate;
 
 public class Emprestimo {
@@ -8,12 +10,14 @@ public class Emprestimo {
     private LocalDate dataRetirada;
     private LocalDate dataDevolucao;
     private final static int PERIODO_EMPRESTIMO_DIAS = 7; // Período padrão de empréstimo
+    Biblioteca biblioteca = new Biblioteca();
 
     public Emprestimo(Usuario usuario, Livro livro, LocalDate dataRetirada) {
         this.usuario = usuario;
         this.livro = livro;
         this.dataRetirada = dataRetirada;
         this.dataDevolucao = calcularDataDevolucao(dataRetirada);
+
     }
 
     private LocalDate calcularDataDevolucao(LocalDate dataRetirada) {
