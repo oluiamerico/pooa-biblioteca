@@ -49,7 +49,7 @@ public class Emprestimo {
     public String toString() {
         return "Emprestimo{" +
                 "usuario=" + usuario.getNome() +
-                ", livro=" + livro.getTitulo() +
+                ", livro= " + livro.getTitulo() +
                 ", dataRetirada=" + dataRetirada +
                 ", dataDevolucao=" + dataDevolucao +
                 '}';
